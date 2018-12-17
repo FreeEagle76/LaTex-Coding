@@ -1,0 +1,911 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Presentazione: Corso: L'ambiente R - Uso in ambito Acustico -
+%Luogo: Torino - Agenti Fisici - Acustica Ambientale
+%Autore: Pasquale Scordino
+%Data: 17 - 18 - 19 Ottobre 2018
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\documentclass{beamer}
+\usetheme{CambridgeUS}
+\usecolortheme{beaver}
+\usefonttheme[onlymath]{serif}
+
+%Settaggio colori e forma degli elenchi puntati
+\setbeamercolor{itemize item}{fg=darkred!80!black}
+\setbeamercolor{itemize subitem}{fg=orange}
+\setbeamercolor{itemize subsubitem}{fg=cyan}
+
+\setbeamertemplate{itemize item}[triangle]
+\setbeamertemplate{itemize subitem}[circle]
+\setbeamertemplate{itemize subsubitem}[triangle]
+
+%Settaggio colore testo e sfondo del titolo del blocco
+\setbeamercolor{block title}{fg=white,bg=darkred!80!black}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Pacchetti usati
+\usepackage[italian]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{graphics}
+\usepackage{subfigure}
+\usepackage{multimedia}
+\usepackage{pifont,xcolor} % http://ctan.org/pkg/{pifont,xcolor}
+\usepackage{fancybox}
+\usepackage{textpos}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[document]{ragged2e} % per giustificare il testo
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Pacchetto usato per scrivere codice R in Beamer e suo settaggio
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+	language=R,                     % the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+	% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=single,                   % adds a frame around the code
+	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	keywordstyle=\color{blue},      % keyword style
+	commentstyle=\color{dkgreen},   % comment style
+	stringstyle=\color{mauve},      % string literal style
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+	morekeywords={*,...}            % if you want to add more keywords to the set
+}
+
+\newsavebox{\mybox}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Prima slide intestazione 
+\title[R - Applicazioni in Acustica Ambientale]{\textbf{L'ambiente} \textcolor{blue}{\textit{\textbf{R}}} \\ \textbf{Applicazioni in Acustica Ambientale}}
+
+\author[P. Scordino\hspace{0.45cm}{p.scordino@arpa.piemonte.it}]{P. Scordino, S. Bande, C. Ronchi}
+\institute{ARPA Piemonte}
+
+\titlegraphic{
+
+  \includegraphics[width=2cm,height=2cm,keepaspectratio]{Images/Arpacolori.jpg}%
+  \hspace*{8.20cm}
+  \includegraphics[width=2cm,height=2cm,keepaspectratio]{Images/logo_SNPA_COL.jpg}%
+
+}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Inizio 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Generalità sull'analisi dei dati}
+		\justify	
+		Grazie \underline{all'evoluzione tecnologica}, che ha reso fruibile a basso costo l'hardware per la \textbf{memorizzazione} dei \textbf{dati} e l'hardware per \textbf{l'elaborazione} sempre più \textbf{veloce} degli stessi, oggi possiamo contare su una moltitudine di dati disponibili che ha reso necessario l'utilizzo di strumenti software potenti e flessibili per poter \textbf{estrarre informazioni utili in tempi ragionevoli.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Generalità sull'analisi dei dati}
+\begin{center}
+	\begin{block}{Definizione di dati e informazione}
+		\begin{itemize}
+			\vspace{2mm}
+			\item \textbf{Dato} dal latino \textit{datum}, dono. I dati sono rappresentazioni di eventi o fatti non interpretate, attraverso simboli e contenute su supporti.
+			\vspace{3mm}
+			\item \textbf{Informazione} dal latino \textit{informatio(-nis)} (nel significato di dare forma alla mente, disciplinare, istruire, insegnare). L'informazione è un insieme di dati, interpretati e comprensibili per il destinatario.
+			\vspace{2mm}
+		\end{itemize}	
+	\end{block}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Generalità sull'analisi dei dati}
+\begin{center}
+	\begin{block}{Il flusso delle informazioni}
+		\begin{figure}
+			\includegraphics[scale=0.35]{Images/datascienceworkflow.jpeg}
+		\end{figure}
+	\end{block}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{L'ambiente \textcolor{blue}{\textit{\textbf{R}}} per l'analisi dei dati}
+\small L'ambiente \textcolor{blue}{\textit{\textbf{R}}} per l'analisi dei dati è particolarmente utile in tutti i campi del sapere dove è necessario processare, analizzare e estrarre informazioni da grandi quantità di dati.
+	\begin{center}
+		\begin{block}{Un pò di statistiche (-:}
+	 		\begin{figure}
+	 			\subfigure[]{
+					\includegraphics[scale=0.15]{Images/WhatisRProg1.png}}
+					\hspace{6mm}
+				\subfigure[]{
+					\includegraphics[scale=0.27]{Images/trend.png}}
+			\end{figure}
+		\end{block}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Uso di \textcolor{blue}{\textit{\textbf{R}}} in ambito acustico ambientale}
+L'uso di \textcolor{blue}{\textit{\textbf{R}}} in acustica ambientale diventa indispensabile soprattutto nei monitoraggi acustici di \textbf{lungo periodo} e laddove c'è la necessità di \textbf{confrontare} diversi dataset (meteo, idrometrici, ecc...) con i dati fonometrici:
+\begin{itemize}
+	\vspace{3mm}
+	\item Reti di monitoraggio \textbf{rumore urbano.}  
+	\item Reti di monitoraggio \textbf{rumore aereoportuale.}	
+	\item Campagne di misurazione \textbf{rumore da traffico stradale e ferroviario.}	
+	\item \textbf{Casi particolari di esposto} dove è necessaria una misura prolungata e in continuo per caratterizzare il disturbo della sorgente in esame.
+\end{itemize}	
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Uso di \textcolor{blue}{\textit{\textbf{R}}} in ambito acustico ambientale}
+\begin{block}{Esempi elaborazioni grafiche}
+	\begin{figure}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot_Cicli_Manna.pdf}}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot_SpettroLLeq_Manna.pdf}}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Uso di \textcolor{blue}{\textit{\textbf{R}}} in ambito acustico ambientale}
+\begin{block}{Esempi elaborazioni grafiche}
+	\begin{figure}
+		\subfigure[]{
+			\includegraphics[scale=0.25]{Images/Rbarplot_Manna_AnalisiSpettrale.pdf}}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Uso di \textcolor{blue}{\textit{\textbf{R}}} in ambito acustico ambientale}
+\begin{block}{Esempi elaborazioni grafiche}
+	\begin{figure}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot_Portata_8_9_maggio_2017_ver2.pdf}}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/RplotTrend.pdf}}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Uso di \textcolor{blue}{\textit{\textbf{R}}} in ambito acustico ambientale}
+\begin{block}{Esempi elaborazioni grafiche}
+	\begin{figure}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot22122016_Ambientale.pdf}}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot04012017_Residuo.pdf}}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Caso studio: Esposto}
+	L'esposto che esamineremo ricade nei casi complessi in quanto l'esponente lamenta un disturbo rumoroso proveniente da una Azienda che dista dall'abitazione dell'esponente circa 300 metri ed inoltre l'abitazione è costeggiata da un torrente.
+	\begin{itemize}	
+		\item Circostanze che aumentano la complessità delle misurazioni:
+	\begin{itemize}
+		\item \textbf{Distanza} fra sorgente e ricettore
+		\item \textbf{Orografia} di tipo vallivo
+		\item Presenza del \textbf{torrente}
+		\item \textbf{Rumore muticiclico modulato}
+	\end{itemize}
+	\end{itemize}
+Per questi motivi per poter caratterizzare al meglio il fenomeno rumoroso è stato necessario effettuare una misurazione in continuo per un periodo prolungato.
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+\begin{center}	
+	\begin{figure}
+		\subfigure[Foto satellitare del luogo in esame]{
+			\includegraphics[scale=0.31]{Images/Pratrivero_Manna_modificata.png}}
+	\end{figure}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+Dopo un \textbf{sopralluogo al ricettore} si è provveduto a \textbf{pianificare} ed effettuare una serie di interventi di misura sia in esterno che in interno all'abitazione dell'esponente.\\ 
+Da una prima sommaria analisi delle \textbf{misure fonometriche} corredate di\textbf{ registrazione audio} (indispensabile per le misure in continuo e prolungate) è emerso che il periodo più critico risultava essere quello notturno nella fascia oraria 22:00 - 06:00.\\ 
+All'interno di questa fascia oraria si sono individuate le ore meno disturbate dall'attività casalinga dell'esponente 00:00 - 05.00.\\ 
+Le successive analisi pertanto si sono concentrate in questa fascia oraria.   
+\end{frame}
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+I dati raccolti sono stati scaricati dalla strumentazione in formato csv (un file ogni ora di misura). Prima dell'analisi con il software \textcolor{blue}{\textit{\textbf{R}}} è stato fatto un preliminare ascolto delle tracce audio per identificare univocamente i cicli della sorgente rumorosa.\\ 
+Quindi \textcolor{blue}{\textit{\textbf{R}}} è stato utile per:
+\begin{block}{}
+	\begin{columns}[T]
+		\begin{column}{.45\textwidth}
+			\centering
+			\vspace{5mm}
+			\includegraphics[scale=0.10]{Images/Rlogo.png}
+		\end{column}
+		\begin{column}{0.55\textwidth}
+			\begin{itemize}
+				\item \small Unire i file orari
+				\item \small Marcare tutti i cicli a $40$ $Hz$ e $315$ $Hz$ sul valore di $Leq(dB(A))$
+				\item \small Unire i valori di $Leq(dB(A))$ corrispondenti ai cicli
+				\item \small Ricercare eventuali toni puri
+				\item \small Calcolare la media energetica oraria sul $Leq(dB(A))$ corrispondente ai cicli
+				\item \small Rappresentare graficamente i risultati		
+			\end{itemize}	
+		\end{column}	
+	\end{columns}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+Nelle seguenti slides analizzeremo passo passo il codice \textcolor{blue}{\textit{\textbf{R}}} prodotto per il trattamento dei dati.
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+			# Lettura nome file e inserimento nomi in un vettore di stringhe
+			lista.files <- list.files(dirdataset)
+
+			# Carico dataset orari (00:00 - 04:00) dei Giorni 21 - 22 e 23 settembre 2018
+			for (j in 13:17) {
+			assign(paste("df_", substr(lista.files[j], 1, 12), sep = ""), 
+			read.table(paste(dirdataset, lista.files[j], sep = "/"), 
+			skip = 6, dec = ".", sep = ";", stringsAsFactors = FALSE))
+			}
+
+			for (j in 18:length(lista.files)) {
+			assign(paste("df_", substr(lista.files[j], 1, 13), sep = ""), 
+			read.table(paste(dirdataset, lista.files[j], sep = "/"), 
+			skip = 6, dec = ".", sep = ";", stringsAsFactors = FALSE))
+			}	
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+		# Operazione comune a tutti i dataset
+		df_210918_00_in.name <- read.table(paste(dirdataset, lista.files[13], sep = "/"), skip = 5, nrows = 1, dec = ".", sep = ";", stringsAsFactors = FALSE)
+		
+		# Aggiunta delle lettere "min" dalla colonna 50 alla 87 (spettro dei minimi)
+		df_210918_00_in.name[50:87] <- paste(df_210918_00_in.name[50:87], "min", sep = "")
+		names(df_220918_00_out) <- df_210918_00_in.name
+		# Eliminazione spazi e parentesi nel nome delle variabili
+		names(df_220918_00_out) <- gsub("\\W|\\s", "", names(df_220918_00_out))
+		
+		# Inserimento nomi ottimizzati alle variabili 
+		names(df_220918_01_out) <- names(df_220918_00_out)
+		names(df_220918_02_out) <- names(df_220918_00_out)
+		names(df_220918_03_out) <- names(df_220918_00_out)
+		names(df_220918_04_out) <- names(df_220918_00_out)
+		
+		names(df_230918_00_out) <- names(df_220918_00_out)
+		names(df_230918_01_out) <- names(df_220918_00_out)
+		names(df_230918_02_out) <- names(df_220918_00_out)
+		names(df_230918_03_out) <- names(df_220918_00_out)
+		names(df_230918_04_out) <- names(df_220918_00_out)
+		
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+		# Funzione personalizzata per creare un sequenza: 
+		# data(YYYY-MM-DD), ora(hh:mm:ss) al secondo
+		time.sequence <- function(data, ora){
+			start.seq <- as.POSIXct(paste(data, ora, sep = " "), 
+			format("%Y-%m-%d %H:%m:%s"))
+			stop.seq <- start.seq + 3599
+			sequence <- seq(start.seq,
+			stop.seq, by = 1)
+			return(sequence)
+		}
+			
+		# Ciclo for per creare piu sequenze orarie
+		# Seguenza del 22 settembre 2018
+		for (i in 0:4) {
+			assign(paste0("time2209180",i), 
+			time.sequence("2018-09-22", paste0("0", i, ":00:00")))
+		}
+		
+		# Sequenza del 23 settembre 2018
+		for (i in 0:4) {
+			assign(paste0("time2309180",i), 
+			time.sequence("2018-09-22", paste0("0", i, ":00:00")))
+		}	
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+	\begin{block}{Codice R}
+		\begin{lrbox}{\mybox}%
+			\begin{lstlisting}[basicstyle =\tiny]
+			
+			#Aggiunta della colonna date ricostruita
+			df_220918_00_out$date <- time22091800
+			df_220918_01_out$date <- time22091801
+			df_220918_02_out$date <- time22091802
+			df_220918_03_out$date <- time22091803
+			df_220918_04_out$date <- time22091804
+			
+			df_230918_00_out$date <- time23091800
+			df_230918_01_out$date <- time23091801
+			df_230918_02_out$date <- time23091802
+			df_230918_03_out$date <- time23091803
+			df_230918_04_out$date <- time23091804
+			
+			\end{lstlisting}			
+		\end{lrbox}{\mybox}%
+		\scalebox{0.95}{\usebox{\mybox}}
+	\end{block}	
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+		
+		# Marcatura eventi fonometrici superiori a 40 dB
+		df_220918_00_out$MarkerEU <- as.factor(ifelse(df_220918_00_out$`40Hz` > 42, "M", "N"))
+		df_220918_01_out$MarkerEU <- as.factor(ifelse(df_220918_01_out$`40Hz` > 42, "M", "N"))
+		df_220918_02_out$MarkerEU <- as.factor(ifelse(df_220918_02_out$`40Hz` > 42, "M", "N"))
+		df_220918_03_out$MarkerEU <- as.factor(ifelse(df_220918_03_out$`40Hz` > 42, "M", "N"))
+		df_220918_04_out$MarkerEU <- as.factor(ifelse(df_220918_04_out$`40Hz` > 42, "M", "N"))
+		
+		df_230918_00_out$MarkerEU <- as.factor(ifelse(df_230918_00_out$`40Hz` > 42, "M", "N"))
+		df_230918_01_out$MarkerEU <- as.factor(ifelse(df_230918_01_out$`40Hz` > 42, "M", "N"))
+		df_230918_02_out$MarkerEU <- as.factor(ifelse(df_230918_02_out$`40Hz` > 42, "M", "N"))
+		df_230918_03_out$MarkerEU <- as.factor(ifelse(df_230918_03_out$`40Hz` > 42, "M", "N"))
+		df_230918_04_out$MarkerEU <- as.factor(ifelse(df_230918_04_out$`40Hz` > 42, "M", "N"))
+			
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+		
+		# Unione dei dataframe
+		
+		Unione_df_2223_09_18 <- rbind(
+										f_220918_00_out,
+										df_220918_01_out,
+										df_220918_02_out,
+										df_220918_03_out,
+										df_220918_04_out,
+		
+										df_230918_00_out,
+										df_230918_01_out,
+										df_230918_02_out,
+										df_230918_03_out,
+										df_230918_04_out
+										)
+		
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+		
+	# Grafico: Particolare delle misure effettuate
+	plot(df17072018_in$LLeq_40Hz, type = "l", ylim = c(0, 55), 
+		ylab = "Livello sonoro (dB/dB(A))",
+		main = "Grafico: Estratto misure pre-bonifica",
+		sub = "Particolare del 17/07/2018 dalle 23:21:10 alle 23:29:18 - scansione 1 secondo")
+		lines(df17072018_in$LLeq_315Hz, col = "blue")
+		lines(df17072018_in$LAeq, col = "red")
+		legend("bottomleft", c("Leq(dB(A))", "Leq(dB) - 40 Hz", "Leq(dB) - 315 Hz"),
+		col = c("red", "black", "blue"), lty = c(1,1,1), inset = 0.01, 
+		cex = 0.85, y.intersp = 0.30, x.intersp = 0.2, bty = "n", text.font = 2)
+		
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+\begin{center}
+	
+	\begin{figure}
+		\subfigure[Analisi esplorativa]{
+			\includegraphics[scale=0.30]{Images/Rplot_Cicli_Manna.pdf}}
+	\end{figure}	
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+		# Subsetting degli eventi fonometrici superiori a 42 dB
+		Eventi_22_40Hz <- subset(Unione_df_22_09_18, MarkerEU == "M")
+		plot(Eventi_22_40Hz$`40Hz`)
+		
+		# Isolamento dello spettro dei minimi
+		Eventi_22_40Hz_min <- Eventi_22_40Hz[ , c(1, 3, 42, 50:87)]
+		Eventi_22_40Hz_spettromin <- Eventi_22_40Hz[, c(50:85)]
+		
+		# Manipolazione dataframe gathering
+		Eventi_40Hz_spettrominLong <- gather(Eventi_22_40Hz_spettromin, freq, llmin)
+		
+		# Creazione di una funzione personalizzata "Calcolo della media energetica 
+		# (media logaritmica in base 10)"
+		EnergeticMean <- function(x) {
+			x <- x[!is.na(x)]
+			li <- (1 / length(x))
+			s <- sum(10 ^ (x / 10))
+			return(round(10 * (log10(li * s)), 1))
+			}
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+	# Calcolo della media energetica
+	Tabella_spettrominimi <- as.data.frame(as.table(
+	tapply(Eventi_40Hz_spettrominLong$llmin, 
+	Eventi_40Hz_spettrominLong$freq, EnergeticMean)))
+	
+	# Riordino delle frequenze (ordine perso "da rivedere per ottimizzare")
+	# Questo passo sarebbe stato inutile se all'etichettatura delle colonne avessi
+	# lasciato il punto
+	freq <- c(100, 10, 10000, 12.5, 125, 1250, 12500, 160, 16, 1600, 16000, 1000, 
+	200, 20, 20000,  250, 25, 2500, 2000, 31.5, 315, 3150, 400, 40, 4000, 
+	500, 50, 5000, 630, 6.3, 63, 6300, 800, 80, 8, 8000)
+	
+	Tabella_spettrominimi <- cbind(Tabella_spettrominimi, freq)
+	Tabella_spettrominimi <- Tabella_spettrominimi[order(freq), ]
+	Tabella_spettrominimi <- Tabella_spettrominimi[ , -1]
+	Tabella_spettrominimi <- Tabella_spettrominimi[ , c(2:1)]
+	names(Tabella_spettrominimi) <- c("Hz", "LLfmin")
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\textbf{ISO 226 : 1987 (E)}
+\begin{equation}
+L_{n} = 4.2 + \dfrac{a_{f}(L_{f} - T_{f})}{1 + b_{f}(L_{f} - T_{f})}
+\end{equation}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+	# Grafico Isofonica vs spettro dei minimi 
+	mydata <- Tabella_spettrominimi
+	
+	# iso	is a dataframe of values like table in ISO 226 1987 for free field
+	iso <- read.table("Isofoniche.csv", sep = ";", dec = ".", header = TRUE)
+	
+	mydata$LLfmin <- suppressWarnings(as.numeric(as.character(mydata$LLfmin)))
+	isof <- iso
+	isof$LLfmin <- signif(x = mydata$LLfmin, digit = 3)
+	isof$afC <- (isof$af)*(isof$LLfmin - isof$Tf)
+	isof$bfC <- (isof$bf)*(isof$LLfmin - isof$Tf)
+	isof$Ln <- (isof$afC)/(1 + isof$bfC) + 4.2
+	isof$Ln1 <- max(isof$Ln, na.rm = TRUE)
+	isof$A <- (isof$Ln1) - 4.2
+	isof$Lf <- signif(x=(isof$A)/(isof$af-(isof$A)*(isof$bf)) + isof$Tf, digit = 3)
+	isof <- as.data.frame(isof)
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.80}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Esposto}
+\textbf{ISO 226 : 1987 (E)}
+
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}%
+		\begin{lstlisting}[basicstyle =\tiny]
+	# Codice per la ricerca dei toni puti
+	A <- (length(isof$Hz[(which(isof$LLfmin>=isof$Lf))])==1)
+	B <- isof$Hz[(which(isof$LLfmin >= isof$Lf))] == 		isof$Hz[(which(diff(isof$LLfmin) >= 5) + 1)])
+	
+	if (A & A %in% B){
+		paste("Attenzione è presente un tono puro con freq.:", 
+		isof$Hz[(which(isof$LLfmin >= isof$Lf))], "Hz", sep = " ")
+	} else {print("Non sono presenti toni puri")}
+	
+	# Codice per il grafico spettro dei minimi Vs isofonica più alta
+	mybar <- barplot(isof$LLfmin, names.arg = isof$Hz, col = "blue", ylim = c(0,100),
+		main = "Grafico Isofonica più alta vs Spettro LLFmin - Campo libero", 
+		xlab = "Frequenza (Hz)", ylab = "Livello sonoro (dB)", space = 0)
+		lines(mybar, isof$Lf, type = "l", col = "red", lwd = 2)
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}	
+\end{block}	
+\end{frame}
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+	\begin{center}
+		\begin{block}{Risultato del codice R per la ricerca dei toni}
+	 		\begin{figure}
+	 			\subfigure[Simulazione]{
+					\includegraphics[scale=0.25]{Images/plotSearchTone.pdf}}
+			\end{figure}
+		\end{block}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+\begin{center}
+	
+		\begin{figure}
+			\subfigure[Risultati analisi toni puri]{
+				\includegraphics[scale=0.30]{Images/Rbarplot_Manna_AnalisiSpettrale.pdf}}
+		\end{figure}
+	
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Caso studio: Esposto}
+\begin{center}
+	
+	\begin{figure}
+		\subfigure[Risultati analisi spettrale]{
+			\includegraphics[scale=0.30]{Images/Rplot_SpettroLLeq_Manna.pdf}}
+	\end{figure}
+	
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Caso studio: Pala Eolica Oulx}
+
+	\begin{center}
+		\begin{block}{}
+	 		\begin{figure}
+				\subfigure{
+				\includegraphics[scale=0.38]{Images/eolico.jpg}}
+			\end{figure}
+		\end{block}
+	\end{center}
+In questo caso è stato necessario calcolare la media scalare della velocità del vento nel \textbf{periodo diurno} (06:00 - 22.00) e nel \textbf{periodo notturno} (22:00 - 06:00) per il confronto con i dati fonometrici.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+	\begin{block}{Codice R}
+		\begin{lrbox}{\mybox}
+			\begin{lstlisting}[basicstyle =\tiny]
+			# Carico dataset
+			df <- read.csv(paste(dirdataset, "Vel_VentoSCALARE.csv", sep = "/"),
+						sep = ";",
+						dec = ".",
+						header = T,
+						stringsAsFactors = F,
+						na.strings = "null")
+		
+		# Manipolazione dataset eliminazione variabili irrilevanti per l'analisi
+		# e cambio nome ad alcune variabili
+		df <- df[, c(9:12)]
+		names(df)[3:4] <- c("VelVento(m/s)", "Validazione")
+		
+		# Subsetting dati validati
+		df <- subset(df, Validazione == "OK")
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}
+		\begin{lstlisting}[basicstyle =\tiny]
+	# Inserisco i flag "giorno" (6-22) e "notte" (22-6)
+	# Manipolazione data e ora
+	df$date <- paste(df$data, df$ora, sep = " ")
+	df$date <- dmy_hm(df$date)
+	df$Ora <- hour(df$date)
+	df$Giorno <- day(df$date)
+	df$Mese <- month(df$date)
+	
+	# Inserimento flags nella nuova variabile Periodo
+	df$Periodo1 <- ifelse(df$Ora <= 5, "N", "G")
+	df$Periodo2 <- ifelse(df$Ora >= 22, "N", "G")
+	df$Periodo <-
+	ifelse(df$Periodo1 == "N" | df$Periodo2 == "N", "N", "G")
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	# subsetting df rispetto i flags notte "N" e giorno "G"
+	df_N <- subset(df, Periodo == "N")
+	df_G <- subset(df, Periodo == "G")
+	#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}
+		\begin{lstlisting}[basicstyle =\tiny]
+		# Calcolo meadia, min, massimo e deviazione standard periodo Diurno
+		t_G <- tapply(df_G$`VelVento(m/s)`, list(df_G$Giorno, df_G$Mese),
+		function(x) {
+			c(
+			MEAN = mean(x),
+			MIN = min(x),
+			MAX = (max(x)),
+			SD = sd(x)
+			)
+		})
+		
+		# Assemblo il contenuto della lista "t_N" e lo trasformo in dataframe
+		df_G_Day <- as.data.frame(do.call(rbind, t_G))
+		
+		# Inserisco il vettore data nel dataframe
+		df_G_Day$DATA <- unique(df_G$data)
+		
+		# Riordino posizione variabili
+		df_G_Day <- df_G_Day[, c(5, 1:4)]
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}
+		\begin{lstlisting}[basicstyle =\tiny]
+		# Arrotondamenti ad una cifra decimale
+		# Creazione funzione personalizzata per arrotondare
+		round_df <- function(x, decimali) {
+		# arrotonda tulle le variabili numeriche
+		# x: data frame
+		# decimali: numero di decimali
+		numeric_columns <- sapply(x, mode) == 'numeric'
+		x[numeric_columns] <-  round(x[numeric_columns], decimali)
+		x
+		}
+		
+		# Applico la funzione "round_df"
+		df_G_Day <- round_df(df_G_Day, 2)
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+		# Salvataggio files .csv elaborato nella cartella "Tabelle_Elaborate"
+		write.table(
+			df_G_Day,
+			paste(
+			dirsalvataggio, "TabGiorno_StatGiornaliereVV_2017_OULX.csv",
+			sep = "/"
+			),
+			row.names = F,
+			sep = ";",
+			dec = ".")
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.95}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}
+		\begin{lstlisting}[basicstyle =\tiny]
+		# codice per calcolo statistiche notturne a cavallo di due giorni
+		# Inserimento flags alle ore notturne divise per >= 22 "N1" il resto "N2"
+		df_N$PeriodoAcu <- ifelse(df_N$Ora >= 22, "N1", "N2")
+		# Eliminazione variabili non necessarie
+		df_N <- df_N[, c(1, 5, 6:8, 3, 4, 11:12)]
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		# subsetting per l'eliminazione delle prime e ultime ore che non completano il
+		# range orario da analizzare
+		df_N1 <- df_N[!(df_N$data == unique((df_N$data))[1] & df_N$Ora < 22),]
+		
+		df_N2 <- df_N1[!(df_N1$data == unique((df_N1$data))[365] &
+				 df_N1$Ora >= 22),]
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		# ciclo che mette in lista i dataframe subsettati secondo i criteri 22-6 di due
+		# giorni consecutivi
+		a <- list()
+		for (i in 1:length(unique(df_N2$data))) {
+		a[[i]] <- subset(df_N2,
+						Ora %in% c(23, 22, 0, 1, 2, 3, 4, 5) &
+						df_N2$data %in% c(unique((df_N2$data))[i],
+										  unique((df_N2$data))[i + 1]))
+		a[[i]] <- a[[i]][!(a[[i]]$data == unique((df_N2$data))[i] &
+							a[[i]]$Ora %in% c(0, 1, 2, 3, 4, 5)),]
+		
+		a[[i]] <- a[[i]][!(a[[i]]$data == unique((df_N2$data))[i + 1] &
+							a[[i]]$Ora %in% c(23, 22)),]
+		}
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.75}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}
+		\begin{lstlisting}[basicstyle =\tiny]
+		# funzione personalizzata per il calcolo delle statistiche di base
+		summary_night <- function(x) {
+			c(
+			MEAN = mean(x),
+			MIN = min(x),
+			MAX = max(x),
+			SD = sd(x)
+		)
+		}
+		
+		# Applicazione funzione sulla lista contenente 364 dataframe 22-6
+		b <- list()
+		for (j in 1:length(a)) {
+		b[[j]] <- summary_night(a[[j]][6]$`VelVento(m/s)`)
+		}
+		
+		# Creazione del dataframe finale con i risultati
+		df_nigthACU <- as.data.frame(do.call(rbind, b))
+		
+		# Inserimento colonna DATA
+		df_nigthACU$DATA <- unique(df_N2$data)
+		
+		# Riarrangiamento colonne del dataframe
+		df_nigthACU <- df_nigthACU[, c(5, 1, 2, 3, 4)]
+		
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.85}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caso studio: Pala eolica Oulx}
+\begin{block}{Codice R}
+	\begin{lrbox}{\mybox}
+		\begin{lstlisting}[basicstyle =\tiny]
+		# Arrotondamenti ad n cifre decimali
+		# Creazione funzione personalizzata per arrotondare
+		round_df <- function(x, decimali) {
+		# arrotonda tulle le variabili numeriche
+		# x: data frame
+		# decimali: numero di decimali
+		numeric_columns <- sapply(x, mode) == 'numeric'
+		x[numeric_columns] <-  round(x[numeric_columns], decimali)
+		x
+		}
+		
+		# Applico la funzione "round_df"
+		df_nigthACU <- round_df(df_nigthACU, 2)
+		
+		
+		# Salvataggio dataframe in un file csv
+		write.table(
+		df_nigthACU,
+		paste(dirsalvataggio, "TabNotteACU_StatGiornaliereVV_2017_OULX.csv",
+			sep = "/"),
+			sep = ";",
+			dec = ".",
+			row.names = F
+		)
+		################################################################################
+		\end{lstlisting}
+	\end{lrbox}{\mybox}%
+	\scalebox{0.85}{\usebox{\mybox}}		
+\end{block}	
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusioni}
+
+Concludendo si può chiaramente affermare che l'\textbf{uso} di \textcolor{blue}{\textbf{R}} nell'ambito dell'\textbf{acustica ambientale} e più in generale nell'ambito dell'analisi dei \textbf{dati ambientali} sta divenendo \textbf{indispensabile} pena la \textcolor{red}{\textbf{svalutazione}} della \textbf{mole importante} di \textbf{dati} che ogni giorno, ora, minuto e secondo ARPA produce.\\
+
+\begin{block}{Due risate...}
+	\begin{figure}
+		\includegraphics[scale=0.30]{Images/superman-data-scientist-graphic.jpg}
+		\hspace{10mm}
+		\includegraphics[scale=0.28]{Images/Sexiest-Job-of-the-21st-Century-2.jpg}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bibliografia}
+\begin{itemize}
+\item The R manuals - edited by the R Development Core Team.
+\item R Core Team (2018). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL: \href{https://www.R-project.org/}{https://www.R-project.org/}.
+\item Manuale di acustica applicata - Renato Spagnolo Casa editrice: UTET Edizione: marzo 2004.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Grazie per l'attenzione!}
+\begin{figure}
+\includegraphics[scale=0.52]{Images/wordcloud_packages.png}
+\end{figure}
+\end{frame}
+
+\end{document}
