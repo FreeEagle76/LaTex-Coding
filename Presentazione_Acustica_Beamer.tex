@@ -1,0 +1,207 @@
+\documentclass{beamer}
+\usetheme{PaloAlto}
+\usecolortheme{spruce}
+\usepackage[italian]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{graphics}
+\usepackage{multimedia}
+\usepackage{pifont,xcolor} % http://ctan.org/pkg/{pifont,xcolor}
+\usepackage{fancybox}
+%\usepackage{animate}
+%\usepackage{xmpmulti}
+
+\makeatletter
+\newcommand\insertlogoii{}
+\newcommand\logoii[1]{\renewcommand\insertlogoii{#1}}
+\setbeamertemplate{headline}
+{%
+	\begin{beamercolorbox}[wd=\paperwidth]{frametitle}
+		\ifx\beamer@sidebarside\beamer@lefttext%
+		\else%
+		\hfill%
+		\fi%
+		\ifdim\beamer@sidebarwidth>0pt%  
+		\usebeamercolor[bg]{logo}%
+		\vrule width\beamer@sidebarwidth height \beamer@headheight%
+		\hskip-\beamer@sidebarwidth%
+		\hbox to \beamer@sidebarwidth{\hss\vbox to
+			\beamer@headheight{\vss\hbox{\color{fg}\insertlogo}\vss}\hss}%
+		\hfill%
+		\vrule width\beamer@sidebarwidth height \beamer@headheight%
+		\hskip-\beamer@sidebarwidth%
+		\hbox to \beamer@sidebarwidth{\hss\vbox to
+			\beamer@headheight{\vss\hbox{\color{fg}\insertlogoii}\vss}\hss}%
+		\else%
+		\vrule width0pt height \beamer@headheight%  
+		\fi%
+	\end{beamercolorbox}
+}
+\makeatother
+
+% Codice per cambiare colore al tema di sfondo
+\setbeamercolor{block title}{use=structure,fg=black,bg=green!80!black}
+\setbeamercolor{block body}{use=structure,fg=black,bg=white!20!white}
+
+% Codice per cambiare il colore agli elenchi puntati
+\definecolor{myblue}{RGB}{0,29,119}
+\newcommand{\itemcolor}[1]{% Update list item colour
+\renewcommand{\makelabel}[1]{\color{#1}\hfil ##1}}
+
+\title{Inquinamento Acustico}
+\subtitle{Introduzione}
+\author{P. Scordino, S. Sperotto}
+\logo{\includegraphics[height = 0.7cm]{images/Arpacolori.jpg}}
+\logoii{\includegraphics[height = 0.9cm]{images/logo_SNPA_COL.jpg}}
+
+\begin{document}
+	
+	\begin{frame}
+		\maketitle
+	\end{frame}
+
+
+	\begin{frame}
+		\frametitle{Il suono - 1}
+\begin{center}
+	Il \textbf{suono} \textit{(dal latino sonus)} è la sensazione data dalla vibrazione di un corpo in oscillazione. Tale vibrazione, che si propaga nell'aria o in un altro mezzo elastico, raggiunge l'apparato uditivo dell'orecchio che, tramite un complesso meccanismo interno, crea una sensazione "uditiva" correlata alla natura della vibrazione
+\end{center}
+	\end{frame}
+
+
+	\begin{frame}
+		\frametitle{Il suono - 2}
+		\begin{center}
+			\includegraphics[height = 4.5 cm]{images/SuonoProp2.png}
+		\end{center}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Il suono - 3}
+		\begin{center}
+			\includegraphics[height = 4.5 cm]{images/Range.jpeg}
+		\end{center}
+	\end{frame}
+
+	
+	\begin{frame}
+		\frametitle{Il rumore - 1}
+		\centering{
+			\includegraphics[height = 7 cm]{images/RumoreFumetto.jpeg}
+		}
+	\end{frame}
+
+
+	\begin{frame}
+		\frametitle{Il rumore - 2}
+\begin{center}
+	Il \textbf{rumore} viene definito come una somma di oscillazioni irregolari, intermittenti o statisticamente casuali. Dal punto di vista fisiopatologico, facendo riferimento all'impatto sul soggetto che lo subisce, il rumore può essere meglio definito come un suono non desiderato e disturbante. 
+\end{center}
+	\end{frame}
+
+	\begin{frame}
+\frametitle{Esempi di rumori}
+\begin{columns}[T]
+	\begin{column}{.5\textwidth}
+		\begin{block}{Rumori}		
+			\begin{itemize}
+				\item \movie[externalviewer, autostart]{Rumore armonico}{sounds/Rumore_armonico_10.mp3}
+				\item \movie[externalviewer, autostart]{Rumore bianco}{sounds/Rumore_Bianco.mp3}
+				\item \movie[externalviewer, autostart]{Rumore rosa}{sounds/Rumore_Rosa.mp3}
+				\item \movie[externalviewer, autostart]{Rumore marrone}{sounds/Rumore_Marrone.mp3}
+			\end{itemize}
+		\end{block}
+				
+	\end{column}
+\end{columns}
+\end{frame}
+
+	\begin{frame}
+		\frametitle{Esempi di rumori monotonali}
+		\begin{columns}[T]
+			\begin{column}{.5\textwidth}
+\begin{block}{Toni puri}		
+	\begin{itemize}
+		\item \movie[externalviewer, autostart]{Suono a 50 Hz}{sounds/50hz.mp3}
+		\item \movie[externalviewer, autostart]{Suono a 100 Hz}{sounds/100hz.mp3}
+		\item \movie[externalviewer, autostart]{Suono a 200 Hz}{sounds/200hz.mp3}
+		\item \movie[externalviewer, autostart]{Suono a 1000 Hz}{sounds/1000hz.mp3}
+		\item \movie[externalviewer, autostart]{Suono a 10000 Hz}{sounds/10000hz.mp3}
+	\end{itemize}
+\end{block}
+
+\begin{block}{}		
+	\includegraphics[height = 2.5 cm]{images/ToniPuri.jpg}
+\end{block}
+
+\end{column}
+\end{columns}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{La misura del rumore}
+		\centering{
+		\includegraphics[height = 7 cm]{images/Rumori.jpeg}
+		}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Il sensore umano per il rumore - 1}
+		\centering{
+		\includegraphics[height = 7 cm]{images/Orecchio.jpeg}
+		}
+	\end{frame} 
+
+	\begin{frame}
+		\frametitle{Il sensore umano per il rumore - 2}
+		\centering{
+		\includegraphics[height = 7 cm]{images/EarAnatomy_InternalEar.png}
+		}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Il sensore umano per il rumore - 3}
+		\centering{
+		\includegraphics[height = 7 cm]{images/VieAcustiche.jpeg}
+		}
+	\end{frame}
+
+	\begin{frame}
+\frametitle{Effetti dell'inquinamento acustico - 1}
+\begin{block}{Cosa et al. 1990}		
+	\begin{itemize}
+		\item[-] \textbf{effetti di danno}, vale a dire di alterazioni non reversibili o non completamente reversibili, obiettivabili dal punto di vista clinico e/o anatomopatologico;
+		\item[-] \textbf{effetti di disturbo}, cioè di alterazioni temporanee delle condizioni psicofisiche del soggetto, che siano chiaramente obiettivabili, determinando effetti fisiopatologici ben definiti;
+		\item[-] \textbf{sensazione di disturbo e fastidio} genericamente intesa \textit{(annoyance)}.
+	\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Effetti dell'inquinamento acustico - 2}
+
+\begin{block}{Tratto da Job 1995, in Porter, Berry \& Flindell, 1998}		
+\begin{center}
+		\includegraphics[height = 6 cm]{images/SoundHealth.png}
+\end{center}
+\end{block}
+
+
+\end{frame}
+
+
+	\begin{frame}
+		\frametitle{Conclusioni}
+		\begin{LARGE}
+		\textcolor{red}{Buon rumore a tutti!!!} 
+		\end{LARGE}
+		\centering{
+		\includegraphics[height = 6 cm]{images/Finale.jpeg}
+		}
+	\end{frame}
+
+\end{document}
+
+

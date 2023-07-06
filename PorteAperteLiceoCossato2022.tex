@@ -1,0 +1,255 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Presentazione: Corso: PORTE APERTE ALL'ARPA
+%Luogo: Cossato - Acustica Ambientale
+%Autore: Simone Sperotto, Pasquale Scordino
+%Data: 01 marzo 2022
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\documentclass{beamer}
+\usetheme{CambridgeUS}
+\usecolortheme{beaver}
+\usefonttheme[onlymath]{serif}
+
+%Settaggio colori e forma degli elenchi puntati
+\setbeamercolor{itemize item}{fg=darkred!80!black}
+\setbeamercolor{itemize subitem}{fg=orange}
+\setbeamercolor{itemize subsubitem}{fg=cyan}
+
+\setbeamertemplate{itemize item}[triangle]
+\setbeamertemplate{itemize subitem}[circle]
+\setbeamertemplate{itemize subsubitem}[triangle]
+
+%Settaggio colore testo e sfondo del titolo del blocco
+\setbeamercolor{block title}{fg=white,bg=darkred!80!black}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Pacchetti usati
+\usepackage[italian]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{graphics}
+\usepackage{subfigure}
+\usepackage{multimedia}
+\usepackage{pifont,xcolor} % http://ctan.org/pkg/{pifont,xcolor}
+\usepackage{fancybox}
+\usepackage{textpos}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[document]{ragged2e} % per giustificare il testo
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Pacchetto usato per scrivere codice R in Beamer e suo settaggio
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+	language=R,                     % the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+	% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=single,                   % adds a frame around the code
+	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	keywordstyle=\color{blue},      % keyword style
+	commentstyle=\color{dkgreen},   % comment style
+	stringstyle=\color{mauve},      % string literal style
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+	morekeywords={*,...}            % if you want to add more keywords to the set
+}
+
+\newsavebox{\mybox}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%Eventuale aggiunta immagine background
+
+%\setbeamertemplate{background} 
+%{
+%	\includegraphics[width=\paperwidth,height=\paperheight]{MyBackground.jpg}
+%}
+
+
+%Prima slide intestazione 
+\title[Porte aperte all'ARPA]{ACUSTICA AMBIENTALE - Attività sede Biella}
+
+\author[S. Sperotto\hspace{0.45cm}{s.sperotto@arpa.piemonte.it}]{S. Sperotto}
+\institute{ARPA Piemonte}
+\date{16 marzo 2022}
+
+\titlegraphic{
+
+  \includegraphics[width=2cm,height=2cm,keepaspectratio]{Images/Arpacolori.jpg}%
+  \hspace*{8.20cm}
+  \includegraphics[width=2cm,height=2cm,keepaspectratio]{Images/logo_SNPA_COL.jpg}%
+
+}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%Inizio 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Attività del servizio acustica ambientale}
+	\begin{center}
+		\begin{block}{Attività principali}
+			\begin{itemize}
+				\vspace{2mm}
+				\item \textbf{Pareri tecnici:} \small Sono delle \textcolor{orange}{valutazioni tecniche} effettuate sulla documentazione (Relazioni impatto/clima acustico, misure fonometriche ecc...) presentata dai consulenti, al fine di verificarne i \textcolor{orange}{requisiti minimi di accettabilità} e eventualmente definire delle \textcolor{orange}{prescrizioni.}.
+				\vspace{3mm}
+				\item \textbf{Esposti:} \small Se un cittadino ritiene di aver individuato \textcolor{orange}{violazioni delle leggi in materia di acustica ambientale}, può informare il \textbf{Comune} che, nell'ambito della propria attività di controllo, verificherà la segnalazione chiedendo, eventualmente, \underline{supporto tecnico ad ARPA}. 
+				\vspace{3mm}
+				\item \textbf{Monitoraggi:} \small Il monitoraggio ambientale è definito dalla European Environment Agency (EEA) come "la misurazione, valutazione e determinazione di parametri ambientali e/o di livelli di inquinamento, periodiche e/o continuate allo scopo di prevenire effetti negativi e dannosi verso l'ambiente". 
+				\vspace{2mm}
+			\end{itemize}	
+		\end{block}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Attività del servizio acustica ambientale}
+	
+	\begin{center}
+		\begin{block}{Un pò di statistiche (-:}
+			\begin{figure}
+				\subfigure[]{
+					\includegraphics[scale=0.25]{Images/p1_attivita.png}}
+				\hspace{6mm}
+				\subfigure[]{
+					\includegraphics[scale=0.25]{Images/p2_attuazione.png}}
+			\end{figure}
+		\end{block}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Organizzazione servizio di acustica ambientale}
+		\justify	
+		Presso il servizio di tutela e vigilanza della sede di Biella c'è attualmente uno specialista in ambito dell'acustica ambientale che svolge le attività di \textbf{redazione pareri tecnici}, \textbf{sopralluoghi e misurazioni fonometriche}, a seguito di esposto, ed effettuazione di approfondimenti attraverso l'esecuzione di \textbf{monitoraggi acustici ambientali}.
+\end{frame}
+
+
+
+\begin{frame}
+	\frametitle{Esempio: Esposto}
+	\begin{center}	
+		\begin{figure}
+			\subfigure[Foto satellitare del luogo in esame]{
+				\includegraphics[scale=0.31]{Images/Pratrivero_Manna_modificata.png}}
+		\end{figure}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Esempio: Esposto}
+\begin{block}{Esempi elaborazioni grafiche}
+	\begin{figure}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot_Cicli_Manna.pdf}}
+		\subfigure[]{
+			\includegraphics[scale=0.19]{Images/Rplot_SpettroLLeq_Manna.pdf}}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Esempio: Esposto}
+\begin{block}{Esempi elaborazioni grafiche}
+	\begin{figure}
+		\subfigure[]{
+			\includegraphics[scale=0.25]{Images/Rbarplot_Manna_AnalisiSpettrale.pdf}}
+	\end{figure}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Esempio: Esposto}
+	\begin{center}
+		\begin{block}{Risultato ricerca dei toni - simulazione}
+	 		\begin{figure}
+	 			\subfigure[Simulazione]{
+					\includegraphics[scale=0.25]{Images/plotSearchTone.pdf}}
+			\end{figure}
+		\end{block}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Esempio: Monitoraggio}
+	%\begin{block}{Foto stazioni mobili di misurazione}
+		\begin{figure}[h]
+			%\subfigure[]{
+				\includegraphics[scale=0.045, angle=270]{Images/foto_Anteo.jpg}%}
+			%\hfil
+			%\subfigure[]{
+			%	\includegraphics[scale=0.028]{Images/Foto_Lamarmora.jpg}}
+		\end{figure}
+	%\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Esempio: Monitoraggio}
+	\begin{center}	
+		\begin{figure}
+			\subfigure[Foto satellitare del luogo in esame]{
+				\includegraphics[scale=0.31]{Images/mappa_punti_covid_Biella1.pdf}}
+		\end{figure}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Esempio: Monitoraggio}
+	\begin{block}{Elaborazioni grafiche}
+		\begin{figure}
+			\subfigure[]{
+				\includegraphics[scale=0.28]{Images/BoxPlot_leq_festferiali_totale.pdf}}
+			\subfigure[]{
+				\includegraphics[scale=0.26]{Images/GraficoGiornaliero_totale.pdf}}
+		\end{figure}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Esempio: Monitoraggio}
+	%\begin{block}{Elaborazioni grafiche}
+		\begin{figure}
+			%\subfigure[]{
+				\includegraphics[scale=0.17]{Images/livelli_diurni_edifici_SP142.pdf}
+			%}
+			%\subfigure[]{
+			%	\includegraphics[scale=0.26]{Images/GraficoGiornaliero_totale.pdf}}
+		\end{figure}
+	%\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusioni}
+
+Concludendo...\\
+
+\begin{block}{Grazie per l'attenzione e buon rumore a tutti!}
+	\begin{figure}
+		\includegraphics[scale=0.20]{Images/RumoreFumetto.jpeg}
+		\hspace{10mm}
+		\includegraphics[scale=0.5]{Images/Finale.jpeg}
+	\end{figure}
+\end{block}
+\end{frame}
+
+
+\end{document}
